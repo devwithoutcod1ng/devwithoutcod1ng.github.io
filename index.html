@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fel1x - Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">fel1x.</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/projects.html">Projects</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="lang-toggle" aria-label="Toggle language">
+                    <i class="fas fa-globe"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>fel1x.</h1>
+                <p class="subtitle">Developer & Designer</p>
+                <div class="cta-buttons">
+                    <a href="/projects.html" class="btn primary">View Projects</a>
+                </div>
+            </div>
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+            <div class="scroll-indicator" onclick="document.querySelector('#about').scrollIntoView({behavior: 'smooth'})">
+                <span>Scroll</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="about-card">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Hi, I'm <strong>fel1x.</strong></p>
+                        <p>I have a bit of experience with <strong>HTML</strong>, <strong>Python</strong> and <strong>Batch</strong> – but honestly, I much prefer working with <strong>AI</strong>. Why? Because I'm a lazy guy and don't really want to learn programming myself. 😁</p>
+                        <p>Instead of spending hours writing code, I let AI do the work for me and focus on creative ideas and smart solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
