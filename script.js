@@ -167,7 +167,7 @@ async function renderProjects() {
         // Cache-Busting für projects.json
         const cacheBuster = new Date().getTime();
         console.log('Fetching projects.json');
-        const res = await fetch(`projects.json?t=${cacheBuster}`);
+        const res = await fetch(`projects/projects.json?t=${cacheBuster}`);
         if (!res.ok) {
             console.error('Failed to fetch projects.json', res.status, res.statusText);
             list.innerHTML = '<p>Failed to load projects. Please try again later.</p>';
