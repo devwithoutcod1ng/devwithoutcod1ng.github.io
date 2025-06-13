@@ -80,17 +80,29 @@ function displayTendies(tendies) {
         container.innerHTML = html;
         setLanguage(localStorage.getItem('lang') || 'en');
 
-        // Füge Event-Listener für das Abspielen von Videos beim Hovern hinzu
+        // Füge Event-Listener für Hover-Effekte hinzu
         const tendieCards = document.querySelectorAll('.tendies-card');
         tendieCards.forEach(card => {
             const video = card.querySelector('video');
+            const img = card.querySelector('img');
+            
             if (video) {
-                card.addEventListener('mouseover', () => {
+                // Video Hover-Effekte
+                card.addEventListener('mouseenter', () => {
                     video.play();
                 });
-                card.addEventListener('mouseout', () => {
+                card.addEventListener('mouseleave', () => {
                     video.pause();
                     video.currentTime = 0;
+                });
+            } else if (img) {
+                // Bild Hover-Effekte
+                card.addEventListener('mouseenter', () => {
+                    img.style.transform = 'scale(1.05)';
+                    img.style.transition = 'transform 0.3s ease';
+                });
+                card.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1)';
                 });
             }
         });
