@@ -3,7 +3,7 @@
     {
       "name": "AltStore",
       "folder": "custom",
-      "videoformat": "mov",
+      "videoformat": "mp4",
       "downloadLink": "https://youtube.com",
       "apple": false,
       "custom": true
@@ -11,7 +11,7 @@
     {
       "name": "AnimatedAppleLogo",
       "folder": "custom",
-      "videoformat": "mov",
+      "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
@@ -19,7 +19,7 @@
     {
       "name": "Aphex",
       "folder": "custom",
-      "videoformat": "mov",
+      "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
@@ -27,7 +27,7 @@
     {
       "name": "AppleIntelligence",
       "folder": "custom",
-      "videoformat": "mov",
+      "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
