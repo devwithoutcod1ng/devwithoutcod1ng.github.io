@@ -6,6 +6,74 @@
     <title>fel1x - Tendies Archive</title>
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tendies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tendies-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tendies-video {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .tendies-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tendies-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .tendies-download {
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .tendies-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 1024px) {
+            .tendies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tendies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -44,10 +112,63 @@
         </section>
 
         <section id="tendies-content">
-            <!-- Hier kommt der Inhalt des Tendies-Archivs -->
+            <div class="tendies-grid" id="tendies-grid">
+                <!-- Tendies werden hier dynamisch eingefügt -->
+            </div>
         </section>
     </main>
 
     <script src="../../script.js"></script>
+    <script>
+        async function loadTendies() {
+            try {
+                console.log('Loading tendies...');
+                const response = await fetch('./tendies.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Loaded tendies data:', data);
+                
+                const grid = document.getElementById('tendies-grid');
+                if (!grid) {
+                    throw new Error('Grid element not found');
+                }
+                
+                if (!data.tendies || !Array.isArray(data.tendies)) {
+                    throw new Error('Invalid tendies data format');
+                }
+
+                data.tendies.forEach(tendies => {
+                    const card = document.createElement('div');
+                    card.className = 'tendies-card';
+                    card.innerHTML = `
+                        <div class="tendies-video">
+                            <video src="${tendies.videoPath}" loop muted playsinline></video>
+                        </div>
+                        <h3 class="tendies-title">${tendies.name}</h3>
+                        <a href="${tendies.downloadLink}" class="tendies-download" download>
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    `;
+                    grid.appendChild(card);
+
+                    // Video-Playback beim Hover
+                    const video = card.querySelector('video');
+                    card.addEventListener('mouseenter', () => video.play());
+                    card.addEventListener('mouseleave', () => video.pause());
+                });
+            } catch (error) {
+                console.error('Error loading tendies:', error);
+                const grid = document.getElementById('tendies-grid');
+                if (grid) {
+                    grid.innerHTML = `<p style="text-align: center; color: var(--text-color);">Error loading tendies: ${error.message}</p>`;
+                }
+            }
+        }
+
+        // Lade Tendies wenn die Seite geladen ist
+        document.addEventListener('DOMContentLoaded', loadTendies);
+    </script>
 </body>
 </html>

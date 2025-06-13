@@ -1,0 +1,14 @@
+{
+  "tendies": [
+    {
+      "name": "tendies1",
+      "videoPath": "videos/tendies1.mp4",
+      "downloadLink": "downloads/tendies1.mp4"
+    },
+    {
+      "name": "tendies2",
+      "videoPath": "videos/tendies2.mp4",
+      "downloadLink": "downloads/tendies2.mp4"
+    }
+  ]
+} 

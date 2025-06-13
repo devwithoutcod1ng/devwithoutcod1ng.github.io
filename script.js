@@ -253,7 +253,7 @@ async function renderProjects() {
                     <p>${desc}</p>
                     <div class="project-tags">${tags}</div>
                     <div class="project-links">
-                        <a href="${project.viewUrl}" class="btn primary" target="_blank">View Project</a>
+                        <a href="${project.viewUrl}" class="btn primary">View Project</a>
                     </div>
                 </div>
             `;
