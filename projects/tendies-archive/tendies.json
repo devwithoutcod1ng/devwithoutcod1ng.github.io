@@ -12,10 +12,51 @@
       "name": "AnimatedAppleLogo",
       "folder": "custom",
       "videoformat": "mov",
-      "downloadLink": "tendies/Custom/custom.mp4",
+      "downloadLink": "",
       "apple": false,
       "custom": true
     },
+    {
+      "name": "Aphex",
+      "folder": "custom",
+      "videoformat": "mov",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "AppleIntelligence",
+      "folder": "custom",
+      "videoformat": "mov",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "AppleLogo",
+      "folder": "custom",
+      "videoformat": "gif",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+
     {
       "name": "Zushi",
       "folder": "custom",
