@@ -41,9 +41,105 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "AquaCollection",
       "folder": "custom",
-      "videoformat": "",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "BalatroMenu",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "BlackGoku",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "BlackHole",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Boykisser",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "CatVolleyball",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Chip",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "City",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Compooter",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "DarkBlueCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "DieLit",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Dragonball",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "EventHorizon",
+      "folder": "custom",
+      "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
@@ -51,16 +147,232 @@
     {
       "name": "",
       "folder": "custom",
-      "videoformat": "",
+      "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
     },
-
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
     {
       "name": "Zushi",
       "folder": "custom",
       "videoformat": "mp4",
+      "downloadLink": "",
       "apple": false,
       "custom": true
     }
