@@ -319,6 +319,7 @@ async function loadTendies() {
         const filterButtons = document.querySelectorAll('.filter-button');
         let currentFilter = 'custom'; // Standard auf Custom setzen
 
+        // Hilfsfunktionen
         function getFileType(format) {
             return format.toLowerCase();
         }
@@ -391,7 +392,7 @@ async function loadTendies() {
                 tendiesGrid.appendChild(card);
             });
 
-            // Video-Hover-Effekt nur für Videos
+            // Video-Hover-Effekt für Videos
             const videos = document.querySelectorAll('.tendies-video video');
             videos.forEach(video => {
                 const container = video.parentElement;
@@ -402,6 +403,7 @@ async function loadTendies() {
                 });
                 container.addEventListener('mouseleave', () => {
                     video.pause();
+                    video.currentTime = 0; // Setze Video zurück zum Anfang
                 });
             });
         }
