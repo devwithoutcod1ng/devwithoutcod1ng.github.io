@@ -202,12 +202,25 @@ function setLanguage(lang) {
     // Aktualisiere Fehlermeldungen auf der Tendies-Seite
     const errorMessages = document.querySelectorAll('.error p');
     errorMessages.forEach(error => {
-        if (error.textContent.includes('Keine Tendies') || error.textContent.includes('No Tendies')) {
-            error.textContent = t('tendies.error.none_found');
-        } else if (error.textContent.includes('Fehler beim Laden') || error.textContent.includes('Error loading')) {
-            error.textContent = t('tendies.error.loading');
+        if (error.textContent.includes(translations['tendies.error.none_found.en']) || error.textContent.includes(translations['tendies.error.none_found.de'])) {
+            error.innerHTML = t('tendies.error.none_found');
+        } else if (error.textContent.includes(translations['tendies.error.loading.en']) || error.textContent.includes(translations['tendies.error.loading.de'])) {
+            error.innerHTML = t('tendies.error.loading');
         }
     });
+
+    // Aktualisiere die Texte der Tendies-Download-Buttons
+    if (window.location.pathname.includes('/projects/tendies-archive/')) {
+        const downloadButtons = document.querySelectorAll('.tendies-download');
+        downloadButtons.forEach(button => {
+            // Prüfen, ob es sich um einen aktiven Download-Link handelt oder einen deaktivierten
+            if (button.tagName === 'A') { // Aktiver Download-Button
+                button.innerHTML = `<i class="fas fa-download"></i> ${t('tendies.download')}`;
+            } else if (button.tagName === 'SPAN' && button.classList.contains('disabled')) { // Deaktivierter Download-Button
+                button.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${t('tendies.download_unavailable')}`;
+            }
+        });
+    }
 
     // Projekte
     renderProjects();

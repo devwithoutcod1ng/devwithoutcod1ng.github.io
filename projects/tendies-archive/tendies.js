@@ -40,10 +40,10 @@ function displayTendies(tendies) {
             const downloadLink = tendie.downloadLink;
             const downloadButtonHtml = downloadLink && downloadLink.trim() !== '' ?
                 `<a href="${downloadLink}" class="tendies-download" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-download"></i> Download
+                    <i class="fas fa-download"></i> ${t('tendies.download')}
                 </a>` :
                 `<span class="tendies-download disabled">
-                    <i class="fas fa-exclamation-circle"></i> Download nicht verfügbar
+                    <i class="fas fa-exclamation-circle"></i> ${t('tendies.download_unavailable')}
                 </span>`;
 
             return `
