@@ -270,4 +270,112 @@ window.onload = () => {
     setTimeout(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }, 50);
-}; 
+};
+
+// Tendies Archive Funktionalität
+async function loadTendiesData() {
+    if (!window.location.pathname.includes('/projects/tendies-archive/')) {
+        return; // Nur auf der Tendies-Archive-Seite ausführen
+    }
+
+    try {
+        const timestamp = new Date().getTime();
+        const response = await fetch(`./tendies.json?t=${timestamp}`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const grid = document.getElementById('tendies-grid');
+        
+        if (!grid) {
+            throw new Error('Grid element not found');
+        }
+
+        if (!data.tendies || !Array.isArray(data.tendies)) {
+            throw new Error('Invalid tendies data format');
+        }
+
+        // Grid leeren vor dem Hinzufügen neuer Karten
+        grid.innerHTML = '';
+
+        data.tendies.forEach(tendies => {
+            const card = document.createElement('div');
+            card.className = 'tendies-card';
+            
+            // Video-Container
+            const videoContainer = document.createElement('div');
+            videoContainer.className = 'tendies-video';
+            
+            const video = document.createElement('video');
+            video.src = `${tendies.videoPath}?t=${timestamp}`;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = 'metadata';
+            
+            videoContainer.appendChild(video);
+            
+            // Titel
+            const title = document.createElement('h3');
+            title.className = 'tendies-title';
+            title.textContent = tendies.name;
+            
+            // Download-Button
+            const downloadLink = document.createElement('a');
+            downloadLink.href = `${tendies.downloadLink}?t=${timestamp}`;
+            downloadLink.className = 'tendies-download';
+            downloadLink.download = true;
+            downloadLink.innerHTML = '<i class="fas fa-download"></i> Download';
+            
+            // Elemente zur Karte hinzufügen
+            card.appendChild(videoContainer);
+            card.appendChild(title);
+            card.appendChild(downloadLink);
+            
+            // Video-Playback beim Hover
+            card.addEventListener('mouseenter', () => {
+                video.play().catch(error => console.log('Video playback failed:', error));
+            });
+            card.addEventListener('mouseleave', () => {
+                video.pause();
+                video.currentTime = 0;
+            });
+            
+            grid.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error loading tendies:', error);
+        const grid = document.getElementById('tendies-grid');
+        if (grid) {
+            grid.innerHTML = `
+                <div style="text-align: center; color: var(--text-color); padding: 2rem;">
+                    <p>Fehler beim Laden der Tendies: ${error.message}</p>
+                    <p>Bitte versuchen Sie es später erneut.</p>
+                    <button onclick="loadTendiesData()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Erneut versuchen
+                    </button>
+                </div>
+            `;
+        }
+    }
+}
+
+// Event Listener für Seitenaufruf
+document.addEventListener('DOMContentLoaded', () => {
+    // Bestehende DOMContentLoaded Funktionalität
+    loadTranslations();
+    
+    // Tendies-Daten laden
+    loadTendiesData();
+});
+
+// Event Listener für Seitenwechsel
+window.addEventListener('popstate', loadTendiesData); 

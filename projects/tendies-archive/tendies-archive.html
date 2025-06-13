@@ -119,56 +119,5 @@
     </main>
 
     <script src="../../script.js"></script>
-    <script>
-        async function loadTendies() {
-            try {
-                console.log('Loading tendies...');
-                const response = await fetch('./tendies.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log('Loaded tendies data:', data);
-                
-                const grid = document.getElementById('tendies-grid');
-                if (!grid) {
-                    throw new Error('Grid element not found');
-                }
-                
-                if (!data.tendies || !Array.isArray(data.tendies)) {
-                    throw new Error('Invalid tendies data format');
-                }
-
-                data.tendies.forEach(tendies => {
-                    const card = document.createElement('div');
-                    card.className = 'tendies-card';
-                    card.innerHTML = `
-                        <div class="tendies-video">
-                            <video src="${tendies.videoPath}" loop muted playsinline></video>
-                        </div>
-                        <h3 class="tendies-title">${tendies.name}</h3>
-                        <a href="${tendies.downloadLink}" class="tendies-download" download>
-                            <i class="fas fa-download"></i> Download
-                        </a>
-                    `;
-                    grid.appendChild(card);
-
-                    // Video-Playback beim Hover
-                    const video = card.querySelector('video');
-                    card.addEventListener('mouseenter', () => video.play());
-                    card.addEventListener('mouseleave', () => video.pause());
-                });
-            } catch (error) {
-                console.error('Error loading tendies:', error);
-                const grid = document.getElementById('tendies-grid');
-                if (grid) {
-                    grid.innerHTML = `<p style="text-align: center; color: var(--text-color);">Error loading tendies: ${error.message}</p>`;
-                }
-            }
-        }
-
-        // Lade Tendies wenn die Seite geladen ist
-        document.addEventListener('DOMContentLoaded', loadTendies);
-    </script>
 </body>
 </html>
