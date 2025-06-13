@@ -1,9 +1,9 @@
 {
   "tendies": [
     {
-      "name": "Custom Tendie",
-      "videoPath": "videos/custom.mp4",
-      "downloadLink": "downloads/custom.mp4",
+      "name": "",
+      "videoPath": "tendies/custom/",
+      "downloadLink": "",
       "apple": false,
       "custom": true
     }

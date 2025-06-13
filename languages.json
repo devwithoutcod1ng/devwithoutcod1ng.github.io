@@ -34,5 +34,9 @@
   "tendies.hero.subtitle.en": ".tendies Archive",
   "tendies.hero.subtitle.de": ".tendies Archiv",
   "tendies.hero.scroll.en": "Scroll to <strong>Tendies</strong>",
-  "tendies.hero.scroll.de": "Zu den <strong>Tendies</strong>"
+  "tendies.hero.scroll.de": "Zu den <strong>Tendies</strong>",
+  "tendies.error.none_found.en": "No Tendies found in this category.",
+  "tendies.error.none_found.de": "Keine Tendies in dieser Kategorie gefunden.",
+  "tendies.error.loading.en": "Error loading Tendies. Please try again later.",
+  "tendies.error.loading.de": "Fehler beim Laden der Tendies. Bitte versuchen Sie es später erneut."
 } 

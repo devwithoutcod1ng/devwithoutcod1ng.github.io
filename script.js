@@ -198,6 +198,17 @@ function setLanguage(lang) {
             <p>${t('about.desc2')}</p>
         `;
     }
+
+    // Aktualisiere Fehlermeldungen auf der Tendies-Seite
+    const errorMessages = document.querySelectorAll('.error p');
+    errorMessages.forEach(error => {
+        if (error.textContent.includes('Keine Tendies') || error.textContent.includes('No Tendies')) {
+            error.textContent = t('tendies.error.none_found');
+        } else if (error.textContent.includes('Fehler beim Laden') || error.textContent.includes('Error loading')) {
+            error.textContent = t('tendies.error.loading');
+        }
+    });
+
     // Projekte
     renderProjects();
 }
@@ -304,7 +315,7 @@ async function loadTendies() {
                 tendiesGrid.innerHTML = `
                     <div class="error">
                         <i class="fas fa-info-circle"></i>
-                        <p>Keine Tendies in dieser Kategorie gefunden.</p>
+                        <p>${t('tendies.error.none_found')}</p>
                     </div>
                 `;
                 return;
@@ -365,7 +376,7 @@ async function loadTendies() {
         tendiesGrid.innerHTML = `
             <div class="error">
                 <i class="fas fa-exclamation-circle"></i>
-                <p>Fehler beim Laden der Tendies. Bitte versuchen Sie es später erneut.</p>
+                <p>${t('tendies.error.loading')}</p>
             </div>
         `;
     }
