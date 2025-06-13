@@ -57,6 +57,14 @@
       "custom": true
     },
     {
+      "name": "BlackCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
       "name": "BlackGoku",
       "folder": "custom",
       "videoformat": "mp4",
