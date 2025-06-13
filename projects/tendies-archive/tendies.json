@@ -1,14 +1,11 @@
 {
   "tendies": [
     {
-      "name": "tesd",
-      "videoPath": "videos/tendies1.mp4",
-      "downloadLink": "downloads/tendies1.mp4"
-    },
-    {
-      "name": "tendies2",
-      "videoPath": "videos/tendies2.mp4",
-      "downloadLink": "downloads/tendies2.mp4"
+      "name": "Custom Tendie",
+      "videoPath": "videos/custom.mp4",
+      "downloadLink": "downloads/custom.mp4",
+      "apple": false,
+      "custom": true
     }
   ]
 } 

@@ -287,33 +287,87 @@ async function loadTendies() {
         if (!res.ok) throw new Error('Failed to load tendies');
         const data = await res.json();
         
-        tendiesGrid.innerHTML = ''; // Vorherigen Inhalt löschen
+        // Filter-Buttons Event Listener
+        const filterButtons = document.querySelectorAll('.filter-button');
+        let currentFilter = 'custom'; // Standard auf Custom setzen
+
+        function renderTendies(filter = 'custom') {
+            tendiesGrid.innerHTML = ''; // Vorherigen Inhalt löschen
+            
+            const filteredTendies = data.tendies.filter(tendie => {
+                if (filter === 'apple') return tendie.apple;
+                if (filter === 'custom') return tendie.custom;
+                return false;
+            });
+
+            if (filteredTendies.length === 0) {
+                tendiesGrid.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Keine Tendies in dieser Kategorie gefunden.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredTendies.forEach(tendie => {
+                const card = document.createElement('div');
+                card.className = 'tendies-card';
+                card.innerHTML = `
+                    <div class="tendies-video">
+                        <video src="${tendie.videoPath}" loop muted playsinline></video>
+                    </div>
+                    <h3 class="tendies-title">${tendie.name}</h3>
+                    <a href="${tendie.downloadLink}" class="tendies-download" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                `;
+                tendiesGrid.appendChild(card);
+            });
+
+            // Video-Hover-Effekt
+            const videos = document.querySelectorAll('.tendies-video video');
+            videos.forEach(video => {
+                const container = video.parentElement;
+                container.addEventListener('mouseenter', () => video.play());
+                container.addEventListener('mouseleave', () => video.pause());
+            });
+        }
+
+        // Initial render mit Custom-Filter
+        renderTendies('custom');
         
-        data.tendies.forEach(tendie => {
-            const card = document.createElement('div');
-            card.className = 'tendies-card';
-            card.innerHTML = `
-                <div class="tendies-video">
-                    <video src="${tendie.videoPath}" loop muted playsinline></video>
-                </div>
-                <h3 class="tendies-title">${tendie.name}</h3>
-                <a href="${tendie.downloadLink}" class="tendies-download" download>
-                    <i class="fas fa-download"></i> Download
-                </a>
-            `;
-            tendiesGrid.appendChild(card);
+        // Setze den Custom-Button als aktiv
+        filterButtons.forEach(btn => {
+            if (btn.dataset.filter === 'custom') {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         });
 
-        // Video-Hover-Effekt
-        const videos = document.querySelectorAll('.tendies-video video');
-        videos.forEach(video => {
-            const container = video.parentElement;
-            container.addEventListener('mouseenter', () => video.play());
-            container.addEventListener('mouseleave', () => video.pause());
+        // Filter-Button Click Handler
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Get filter value and render
+                const filter = button.dataset.filter;
+                currentFilter = filter;
+                renderTendies(filter);
+            });
         });
+
     } catch (error) {
         console.error('Error loading tendies:', error);
-        tendiesGrid.innerHTML = '<p>Failed to load tendies. Please try again later.</p>';
+        tendiesGrid.innerHTML = `
+            <div class="error">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Fehler beim Laden der Tendies. Bitte versuchen Sie es später erneut.</p>
+            </div>
+        `;
     }
 }
 
