@@ -292,29 +292,49 @@ async function loadTendies() {
     if (!tendiesGrid) return; // Nur ausführen, wenn auf der Tendies-Seite
 
     try {
+        // Zeige Ladeanimation
+        tendiesGrid.innerHTML = `
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading Tendies...</p>
+            </div>
+        `;
+
         // Pfad zur tendies.json relativ zum aktuellen Verzeichnis
         const path = window.location.pathname.includes('/projects/tendies-archive/') ? 'tendies.json' : 'projects/tendies-archive/tendies.json';
-        const res = await fetch(path);
-        if (!res.ok) throw new Error('Failed to load tendies');
-        const data = await res.json();
+        console.log('Loading tendies from:', path);
         
+        const res = await fetch(path);
+        if (!res.ok) {
+            throw new Error(`Failed to load tendies: ${res.status} ${res.statusText}`);
+        }
+        const data = await res.json();
+        console.log('Loaded tendies data:', data);
+        
+        if (!data.tendies || !Array.isArray(data.tendies)) {
+            throw new Error('Invalid tendies data format');
+        }
+
         // Filter-Buttons Event Listener
         const filterButtons = document.querySelectorAll('.filter-button');
         let currentFilter = 'custom'; // Standard auf Custom setzen
 
-        function getFileType(filePath) {
-            const extension = filePath.split('.').pop().toLowerCase();
-            return extension;
+        function getFileType(format) {
+            return format.toLowerCase();
         }
 
-        function isVideoFile(filePath) {
+        function isVideoFile(format) {
             const videoExtensions = ['mp4', 'mov'];
-            return videoExtensions.includes(getFileType(filePath));
+            return videoExtensions.includes(getFileType(format));
         }
 
-        function isImageFile(filePath) {
+        function isImageFile(format) {
             const imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-            return imageExtensions.includes(getFileType(filePath));
+            return imageExtensions.includes(getFileType(format));
+        }
+
+        function getVideoPath(tendie) {
+            return `tendies/${tendie.folder}/${tendie.name}/${tendie.name}.${tendie.videoformat}`;
         }
 
         function renderTendies(filter = 'custom') {
@@ -340,15 +360,23 @@ async function loadTendies() {
                 const card = document.createElement('div');
                 card.className = 'tendies-card';
                 
+                const videoPath = getVideoPath(tendie);
                 let mediaContent = '';
-                if (isVideoFile(tendie.videoPath)) {
+                
+                if (isVideoFile(tendie.videoformat)) {
                     mediaContent = `
-                        <video src="${tendie.videoPath}" loop muted playsinline></video>
+                        <video src="${videoPath}" loop muted playsinline>
+                            <source src="${videoPath}" type="video/${tendie.videoformat}">
+                            Your browser does not support the video tag.
+                        </video>
                     `;
-                } else if (isImageFile(tendie.videoPath)) {
+                } else if (isImageFile(tendie.videoformat)) {
                     mediaContent = `
-                        <img src="${tendie.videoPath}" alt="${tendie.name}" loading="lazy">
+                        <img src="${videoPath}" alt="${tendie.name}" loading="lazy">
                     `;
+                } else {
+                    console.warn(`Unsupported file type for tendie: ${tendie.videoformat}`);
+                    return;
                 }
 
                 card.innerHTML = `
@@ -356,7 +384,7 @@ async function loadTendies() {
                         ${mediaContent}
                     </div>
                     <h3 class="tendies-title">${tendie.name}</h3>
-                    <a href="${tendie.downloadLink}" class="tendies-download" download>
+                    <a href="${videoPath}" class="tendies-download" download>
                         <i class="fas fa-download"></i> Download
                     </a>
                 `;
@@ -367,8 +395,14 @@ async function loadTendies() {
             const videos = document.querySelectorAll('.tendies-video video');
             videos.forEach(video => {
                 const container = video.parentElement;
-                container.addEventListener('mouseenter', () => video.play());
-                container.addEventListener('mouseleave', () => video.pause());
+                container.addEventListener('mouseenter', () => {
+                    video.play().catch(error => {
+                        console.warn('Error playing video:', error);
+                    });
+                });
+                container.addEventListener('mouseleave', () => {
+                    video.pause();
+                });
             });
         }
 
@@ -404,6 +438,7 @@ async function loadTendies() {
             <div class="error">
                 <i class="fas fa-exclamation-circle"></i>
                 <p>${t('tendies.error.loading')}</p>
+                <p class="error-details">${error.message}</p>
             </div>
         `;
     }

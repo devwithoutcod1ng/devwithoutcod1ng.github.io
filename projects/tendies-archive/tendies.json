@@ -1,10 +1,10 @@
 {
   "tendies": [
     {
-      "name": "Custom Tendie",
+      "name": "AltStore",
       "folder": "custom",
-      "videoname": "custom.mp4",
-      "downloadLink": "downloads/custom.mp4",
+      "videoformat": "mov",
+      "downloadLink": "tendies/Custom/custom.mp4",
       "apple": false,
       "custom": true
     }
