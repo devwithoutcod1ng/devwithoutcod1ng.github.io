@@ -17,8 +17,8 @@
   "home.hero.subtitle.de": "devwithoutcod1ng",
   "home.hero.projects_btn.en": "View Projects",
   "home.hero.projects_btn.de": "Projekte ansehen",
-  "home.hero.scroll.en": "About",
-  "home.hero.scroll.de": "Info",
+  "home.hero.scroll.en": "Scroll to <strong>About</strong>",
+  "home.hero.scroll.de": "Zu <strong>Über mich</strong>",
   "projects.hero.title.en": "fel1x.",
   "projects.hero.title.de": "fel1x.",
   "projects.hero.subtitle.en": "Projects",
@@ -26,5 +26,7 @@
   "projects.view.en": "View Project",
   "projects.view.de": "Projekt ansehen",
   "projects.source.en": "Source Code",
-  "projects.source.de": "Quellcode"
+  "projects.source.de": "Quellcode",
+  "projects.hero.scroll.en": "Scroll to <strong>Projects</strong>",
+  "projects.hero.scroll.de": "Zu den <strong>Projekten</strong>"
 } 

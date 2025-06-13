@@ -144,7 +144,13 @@ function setLanguage(lang) {
     if (projectsBtn) projectsBtn.textContent = t('home.hero.projects_btn');
 
     const scrollIndicator = document.querySelector('.scroll-indicator span');
-    if (scrollIndicator) scrollIndicator.textContent = t('home.hero.scroll');
+    if (scrollIndicator) {
+        if (window.location.pathname === '/projects.html') {
+            scrollIndicator.innerHTML = t('projects.hero.scroll');
+        } else {
+            scrollIndicator.innerHTML = t('home.hero.scroll');
+        }
+    }
 
     // About
     const aboutTitle = document.querySelector('.about-card h2');
