@@ -384,7 +384,7 @@ async function loadTendies() {
                         ${mediaContent}
                     </div>
                     <h3 class="tendies-title">${tendie.name}</h3>
-                    <a href="${videoPath}" class="tendies-download" download>
+                    <a href="${tendie.downloadLink || videoPath}" class="tendies-download" ${!tendie.downloadLink ? 'download' : ''} target="_blank">
                         <i class="fas fa-download"></i> Download
                     </a>
                 `;

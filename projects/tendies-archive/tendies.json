@@ -4,7 +4,22 @@
       "name": "AltStore",
       "folder": "custom",
       "videoformat": "mov",
+      "downloadLink": "https://youtube.com",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "AnimatedAppleLogo",
+      "folder": "custom",
+      "videoformat": "mov",
       "downloadLink": "tendies/Custom/custom.mp4",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Zushi",
+      "folder": "custom",
+      "videoformat": "mov",
       "apple": false,
       "custom": true
     }
