@@ -1,9 +1,24 @@
 let isLoading = false;
-let lastLoadTime = 0;
-const MIN_LOAD_INTERVAL = 1000; // Mindestens 1 Sekunde zwischen Ladevorgängen
+let currentLoadPromise = null;
+
+// Cache löschen und Seite neu laden
+async function clearCacheAndReload() {
+    console.log('Lösche Cache...');
+    if ('caches' in window) {
+        try {
+            const cacheNames = await caches.keys();
+            await Promise.all(
+                cacheNames.map(cacheName => caches.delete(cacheName))
+            );
+            console.log('Cache erfolgreich gelöscht');
+        } catch (error) {
+            console.error('Fehler beim Löschen des Caches:', error);
+        }
+    }
+}
 
 function displayTendies(tendies) {
-    console.log('Starte displayTendies mit', tendies.length, 'Tendies');
+    console.log('displayTendies aufgerufen mit', tendies);
     const container = document.querySelector('.tendies-grid');
     
     if (!container) {
@@ -18,11 +33,14 @@ function displayTendies(tendies) {
     }
 
     try {
+        console.log('Beginne Rendering der Tendies...');
         const html = tendies.map(tendie => {
+            console.log('Verarbeite Tendie:', tendie);
             const date = new Date(tendie.date).toLocaleDateString('de-DE');
+            const mediaPath = tendie.image ? tendie.image.replace(/\/+/g, '/') : '';
             return `
                 <div class="tendie-card">
-                    <img src="${tendie.image}" alt="${tendie.title}" loading="lazy">
+                    <img src="${mediaPath}?t=${Date.now()}" alt="${tendie.title}" loading="lazy">
                     <div class="tendie-info">
                         <h3>${tendie.title}</h3>
                         <p class="date">${date}</p>
@@ -31,6 +49,7 @@ function displayTendies(tendies) {
             `;
         }).join('');
 
+        console.log('HTML generiert, füge in Container ein...');
         container.innerHTML = html;
         console.log('Tendies erfolgreich angezeigt');
     } catch (error) {
@@ -40,26 +59,20 @@ function displayTendies(tendies) {
 }
 
 async function loadTendies() {
-    const now = Date.now();
-    if (isLoading || (now - lastLoadTime) < MIN_LOAD_INTERVAL) {
-        console.log('Ladevorgang läuft bereits oder zu schnell hintereinander, überspringe...');
-        return;
-    }
-
+    console.log('loadTendies aufgerufen');
     const container = document.querySelector('.tendies-grid');
+    
     if (!container) {
         console.error('Container .tendies-grid nicht gefunden!');
         return;
     }
 
     try {
-        isLoading = true;
-        lastLoadTime = now;
         console.log('Starte Laden der Tendies...');
-        
         container.innerHTML = '<div class="loading">Lade Tendies...</div>';
         
-        const response = await fetch('projects/tendies-archive/tendies.json', {
+        console.log('Fetching tendies.json...');
+        const response = await fetch(`tendies.json?t=${Date.now()}`, {
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
@@ -71,87 +84,67 @@ async function loadTendies() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
+        console.log('Response erhalten, parse JSON...');
         const data = await response.json();
-        console.log('Tendies geladen:', data);
+        console.log('JSON geparst:', data);
         
         if (!data || !Array.isArray(data.tendies)) {
+            console.error('Ungültiges Datenformat:', data);
             throw new Error('Ungültiges Datenformat in tendies.json');
         }
         
-        // Sortiere nach Datum (neueste zuerst)
+        console.log('Sortiere Tendies...');
         const sortedTendies = [...data.tendies].sort((a, b) => new Date(b.date) - new Date(a.date));
-        console.log('Sortierte Tendies:', sortedTendies.length);
+        console.log('Sortierte Tendies:', sortedTendies);
         
-        // Zeige die Tendies an
+        console.log('Rufe displayTendies auf...');
         displayTendies(sortedTendies);
     } catch (error) {
         console.error('Fehler beim Laden der Tendies:', error);
         if (container) {
-            container.innerHTML = '<div class="error"><p>Fehler beim Laden der Tendies. Bitte versuche es später erneut.</p></div>';
+            container.innerHTML = `
+                <div class="error">
+                    <p>Fehler beim Laden der Tendies. Bitte versuche es später erneut.</p>
+                    <p class="error-details">${error.message}</p>
+                </div>
+            `;
         }
-    } finally {
-        isLoading = false;
     }
 }
 
-// Warte auf vollständiges Laden des DOM
-function initializeTendies() {
-    console.log('Initialisiere Tendies...');
-    const container = document.querySelector('.tendies-grid');
-    if (!container) {
-        console.error('Container .tendies-grid nicht gefunden, versuche es später erneut...');
-        setTimeout(initializeTendies, 1000);
-        return;
-    }
+// Initialisierung
+async function initialize() {
+    console.log('Initialisiere Seite...');
+    await clearCacheAndReload();
     
-    console.log('Container gefunden, starte initiales Laden...');
-    // Verzögere das initiale Laden um 500ms
-    setTimeout(loadTendies, 500);
+    // Warte 500ms bevor die Tendies geladen werden
+    setTimeout(() => {
+        console.log('Starte verzögertes Laden der Tendies...');
+        loadTendies();
+    }, 500);
 }
-
-// Starte die Initialisierung wenn das DOM geladen ist
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeTendies);
-} else {
-    initializeTendies();
-}
-
-// Lade die Tendies alle 5 Sekunden neu, aber nur wenn die Seite sichtbar ist
-let reloadInterval;
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        if (reloadInterval) {
-            clearInterval(reloadInterval);
-            reloadInterval = null;
-        }
-    } else {
-        // Verzögere das Laden um 500ms wenn die Seite wieder sichtbar wird
-        setTimeout(() => {
-            loadTendies();
-            reloadInterval = setInterval(loadTendies, 5000);
-        }, 500);
-    }
-});
-
-// Initiales Intervall setzen
-reloadInterval = setInterval(loadTendies, 5000);
 
 // Event Listener für die Filter-Buttons
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Initialisiere Filter-Buttons...');
     const filterButtons = document.querySelectorAll('.filter-button');
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Entferne active Klasse von allen Buttons
+            console.log('Filter-Button geklickt:', button.dataset.filter);
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Füge active Klasse zum geklickten Button hinzu
             button.classList.add('active');
-            // Lade die Tendies neu
             loadTendies();
         });
     });
 });
 
-// Hilfsfunktionen für Dateityp-Erkennung
+// Starte die Initialisierung
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+} else {
+    initialize();
+}
+
 function isVideoFile(filename) {
     if (!filename) return false;
     const videoExtensions = ['mp4', 'mov', 'webm'];

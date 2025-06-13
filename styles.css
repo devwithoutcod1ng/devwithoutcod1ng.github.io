@@ -578,4 +578,48 @@ footer {
     .project-card {
         /* max-width: 250px; */
     }
+}
+
+.tendies-download {
+    padding: 0.8rem 2rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tendies-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: var(--secondary-color);
+}
+
+.tendies-download i {
+    font-size: 1.1rem;
+}
+
+.tendies-download.disabled {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.tendies-download.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--card-bg);
+}
+
+@media (max-width: 1024px) {
+    // ... existing code ...
 } 
