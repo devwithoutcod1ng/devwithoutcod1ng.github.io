@@ -257,7 +257,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "LittleBigPlanet",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -265,7 +265,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "LofiHipHop",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -273,7 +273,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "LucyDacus",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -281,7 +281,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "LuffyGear5",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -289,7 +289,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MarioGalaxy",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -297,7 +297,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MarioGalaxy2",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -305,7 +305,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MarioGamer",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -313,7 +313,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MarioYoshi",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -321,7 +321,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MCPanorama",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -329,7 +329,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MidnightBrisa",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -337,7 +337,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "MusicCD",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -345,7 +345,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "NeonLines",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -353,7 +353,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "Nexusbg",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -361,13 +361,310 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "NintendoSwitch",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
       "apple": false,
       "custom": true
     },
+    {
+      "name": "NintendoWii",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "OrangeCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "OrbitalV1",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "PatrickSeahorse",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona3Classic",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona3FEMC",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona3Reload",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona4",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona4Teddie",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Persona5Royal",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "PurpleCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "RainbowSprinkels",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "RedCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "RickApple",
+      "folder": "custom",
+      "videoformat": "png",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Sakura",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SequoiaDay",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SequoiaNight",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "ServerPromo",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SeverancePromo",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Snoopy",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SolarSystem",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SonicManiaMirageSaloon",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Space",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SpinningGear",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Splatoon-SquidSisters",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Stars",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "SuperSimpleGradient",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Swelvy",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "TintedCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Ubuntu",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "UndertaleRuins",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "VaporWave",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "VerySimpleGradient",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Wave",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "WhiteCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "Windows",
+      "folder": "custom",
+      "videoformat": "jpg",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
+      "name": "YellowCubes",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+
     {
       "name": "Zushi",
       "folder": "custom",
