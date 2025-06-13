@@ -302,6 +302,21 @@ async function loadTendies() {
         const filterButtons = document.querySelectorAll('.filter-button');
         let currentFilter = 'custom'; // Standard auf Custom setzen
 
+        function getFileType(filePath) {
+            const extension = filePath.split('.').pop().toLowerCase();
+            return extension;
+        }
+
+        function isVideoFile(filePath) {
+            const videoExtensions = ['mp4', 'mov'];
+            return videoExtensions.includes(getFileType(filePath));
+        }
+
+        function isImageFile(filePath) {
+            const imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+            return imageExtensions.includes(getFileType(filePath));
+        }
+
         function renderTendies(filter = 'custom') {
             tendiesGrid.innerHTML = ''; // Vorherigen Inhalt löschen
             
@@ -324,9 +339,21 @@ async function loadTendies() {
             filteredTendies.forEach(tendie => {
                 const card = document.createElement('div');
                 card.className = 'tendies-card';
+                
+                let mediaContent = '';
+                if (isVideoFile(tendie.videoPath)) {
+                    mediaContent = `
+                        <video src="${tendie.videoPath}" loop muted playsinline></video>
+                    `;
+                } else if (isImageFile(tendie.videoPath)) {
+                    mediaContent = `
+                        <img src="${tendie.videoPath}" alt="${tendie.name}" loading="lazy">
+                    `;
+                }
+
                 card.innerHTML = `
                     <div class="tendies-video">
-                        <video src="${tendie.videoPath}" loop muted playsinline></video>
+                        ${mediaContent}
                     </div>
                     <h3 class="tendies-title">${tendie.name}</h3>
                     <a href="${tendie.downloadLink}" class="tendies-download" download>
@@ -336,7 +363,7 @@ async function loadTendies() {
                 tendiesGrid.appendChild(card);
             });
 
-            // Video-Hover-Effekt
+            // Video-Hover-Effekt nur für Videos
             const videos = document.querySelectorAll('.tendies-video video');
             videos.forEach(video => {
                 const container = video.parentElement;

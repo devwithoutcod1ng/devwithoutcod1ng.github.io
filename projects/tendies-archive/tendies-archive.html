@@ -40,10 +40,19 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .tendies-video video {
+        .tendies-video video,
+        .tendies-video img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .tendies-video img {
+            transition: transform 0.3s ease;
+        }
+
+        .tendies-video:hover img {
+            transform: scale(1.05);
         }
 
         .tendies-title {
