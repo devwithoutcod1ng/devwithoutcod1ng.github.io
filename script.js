@@ -120,15 +120,32 @@ function setLanguage(lang) {
         navLinks[0].textContent = t('nav.home');
         navLinks[1].textContent = t('nav.projects');
     }
-    // Hero
+
+    // Hero - Unterscheidung zwischen Home und Projects Seite
     const heroTitle = document.querySelector('.hero-content h1');
-    if (heroTitle) heroTitle.innerHTML = t('hero.name');
+    if (heroTitle) {
+        if (window.location.pathname === '/projects.html') {
+            heroTitle.innerHTML = t('projects.hero.title');
+        } else {
+            heroTitle.innerHTML = t('home.hero.name');
+        }
+    }
+
     const heroSubtitle = document.querySelector('.hero-content .subtitle');
-    if (heroSubtitle) heroSubtitle.textContent = t('hero.subtitle');
+    if (heroSubtitle) {
+        if (window.location.pathname === '/projects.html') {
+            heroSubtitle.textContent = t('projects.hero.subtitle');
+        } else {
+            heroSubtitle.textContent = t('home.hero.subtitle');
+        }
+    }
+
     const projectsBtn = document.querySelector('.cta-buttons .btn.primary');
-    if (projectsBtn) projectsBtn.textContent = t('hero.projects_btn');
+    if (projectsBtn) projectsBtn.textContent = t('home.hero.projects_btn');
+
     const scrollIndicator = document.querySelector('.scroll-indicator span');
-    if (scrollIndicator) scrollIndicator.textContent = t('hero.scroll');
+    if (scrollIndicator) scrollIndicator.textContent = t('home.hero.scroll');
+
     // About
     const aboutTitle = document.querySelector('.about-card h2');
     if (aboutTitle) aboutTitle.textContent = t('about.title');
