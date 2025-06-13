@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fel1x - Tendies Archive</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tendies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tendies-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .tendies-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tendies-video {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: var(--background-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .tendies-video video,
+        .tendies-video img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tendies-video img {
+            transition: transform 0.3s ease;
+        }
+
+        .tendies-video:hover img {
+            transform: scale(1.05);
+        }
+
+        .tendies-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            text-align: center;
+            margin: 0;
+        }
+
+        .tendies-download {
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tendies-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: var(--secondary-color);
+        }
+
+        .tendies-download i {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .tendies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tendies-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin: 2rem;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .filter-button {
+            padding: 0.8rem 2rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-button i {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">fel1x.</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/projects.html">Projects</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="lang-toggle" aria-label="Toggle language">
+                    <i class="fas fa-globe"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-i18n="tendies.hero.title">fel1x.</h1>
+                <p class="subtitle" data-i18n="tendies.hero.subtitle">.tendies Archive</p>
+            </div>
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+            <div class="scroll-indicator" onclick="document.querySelector('#tendies-content').scrollIntoView({behavior: 'smooth'})">
+                <span data-i18n="tendies.hero.scroll">Scroll to Tendies</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <section id="tendies-content">
+            <div class="filter-container">
+                <button class="filter-button" data-filter="custom">
+                    <i class="fas fa-paint-brush"></i>
+                    Custom
+                </button>
+                <button class="filter-button" data-filter="apple">
+                    <i class="fab fa-apple"></i>
+                    Apple
+                </button>
+            </div>
+            <div class="tendies-grid" id="tendies-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading Tendies...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../script.js"></script>
+</body>
+</html>
