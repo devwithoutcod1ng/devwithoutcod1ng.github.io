@@ -25,7 +25,7 @@ function displayTendies(tendies) {
     if (!Array.isArray(tendies) || tendies.length === 0) {
         console.error('Keine gültigen Tendies zum Anzeigen');
         container.innerHTML = '<div class="error"><p data-i18n="tendies.error.none_found"></p></div>';
-        setLanguage(localStorage.getItem('lang') || 'en'); // Aktualisiere den Text nach dem Laden
+        setLanguage(localStorage.getItem('lang') || 'en');
         return;
     }
 
@@ -33,8 +33,12 @@ function displayTendies(tendies) {
         const html = tendies.map(tendie => {
             const title = tendie.name || 'Unbekannter Titel';
             
-            // Konstruiere den Medienpfad basierend auf folder, name und videoformat
-            const mediaPath = `tendies/${tendie.folder}/${tendie.name}/${tendie.name}.${tendie.videoformat}`;
+            // Konstruiere den Medienpfad basierend auf folder, name und format
+            const mediaPath = `tendies/${tendie.folder}/${tendie.name}/${tendie.name}.${tendie.videoformat || tendie.imageformat}`;
+            
+            // Bestimme den Medientyp
+            const isVideo = ['mp4', 'webm', 'mov'].includes(tendie.videoformat?.toLowerCase());
+            const isImage = ['jpg', 'jpeg', 'png'].includes((tendie.videoformat || tendie.imageformat)?.toLowerCase());
             
             // Holen Sie sich den Download-Link und passen Sie den Button an
             const downloadLink = tendie.downloadLink;
@@ -46,10 +50,26 @@ function displayTendies(tendies) {
                     <i class="fas fa-exclamation-circle"></i> ${t('tendies.download_unavailable')}
                 </span>`;
 
+            // Erstelle das Medien-Element basierend auf dem Typ
+            let mediaElement;
+            if (isVideo) {
+                mediaElement = `
+                    <video muted loop preload="auto" playsinline disablepictureinpicture controlslist="nodownload" 
+                           src="${mediaPath}" alt="${title}" loading="lazy" 
+                           onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();">
+                    </video>`;
+            } else if (isImage) {
+                mediaElement = `
+                    <img src="${mediaPath}" alt="${title}" loading="lazy" 
+                         onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();">`;
+            } else {
+                mediaElement = `<div class="error-placeholder">Unbekanntes Format</div>`;
+            }
+
             return `
                 <div class="tendies-card">
                     <div class="tendies-video">
-                        <video muted loop preload="auto" playsinline disablepictureinpicture controlslist="nodownload" src="${mediaPath}" alt="${title}" loading="lazy" onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();"></video>
+                        ${mediaElement}
                     </div>
                     <h3 class="tendies-title">${title}</h3>
                     ${downloadButtonHtml}
@@ -58,19 +78,19 @@ function displayTendies(tendies) {
         }).join('');
 
         container.innerHTML = html;
-        setLanguage(localStorage.getItem('lang') || 'en'); // Aktualisiere den Text nach dem Laden
+        setLanguage(localStorage.getItem('lang') || 'en');
 
         // Füge Event-Listener für das Abspielen von Videos beim Hovern hinzu
         const tendieCards = document.querySelectorAll('.tendies-card');
         tendieCards.forEach(card => {
-            const video = card.querySelector('.tendies-video video');
+            const video = card.querySelector('video');
             if (video) {
                 card.addEventListener('mouseover', () => {
                     video.play();
                 });
                 card.addEventListener('mouseout', () => {
                     video.pause();
-                    video.currentTime = 0; // Setzt das Video zurück auf den Anfang
+                    video.currentTime = 0;
                 });
             }
         });
@@ -78,7 +98,7 @@ function displayTendies(tendies) {
     } catch (error) {
         console.error('Fehler beim Anzeigen der Tendies:', error);
         container.innerHTML = '<div class="error"><p data-i18n="tendies.error.loading"></p></div>';
-        setLanguage(localStorage.getItem('lang') || 'en'); // Aktualisiere den Text nach dem Laden
+        setLanguage(localStorage.getItem('lang') || 'en');
     }
 }
 

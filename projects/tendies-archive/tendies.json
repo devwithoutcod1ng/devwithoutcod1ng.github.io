@@ -241,7 +241,7 @@
       "custom": true
     },
     {
-      "name": "",
+      "name": "LightBlueCubes",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -249,9 +249,9 @@
       "custom": true
     },
     {
-      "name": "LightBlueCubes",
+      "name": "LiliUziVertVSTheWorld",
       "folder": "custom",
-      "videoformat": "mp4",
+      "videoformat": "jpeg",
       "downloadLink": "",
       "apple": false,
       "custom": true
