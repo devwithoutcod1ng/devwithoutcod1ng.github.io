@@ -139,10 +139,8 @@ async function loadTendies(filter = 'custom') {
 async function initialize() {
     await clearCacheAndReload();
     
-    // Warte 500ms bevor die Tendies geladen werden und lade mit Standardfilter 'custom'
-    setTimeout(() => {
-        loadTendies('custom'); 
-    }, 500);
+    // Lade die Tendies sofort beim Laden der Seite mit dem Standardfilter 'custom'
+    loadTendies('custom'); 
 }
 
 // Event Listener für die Filter-Buttons

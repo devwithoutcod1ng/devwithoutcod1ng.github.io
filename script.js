@@ -220,6 +220,12 @@ function setLanguage(lang) {
                 button.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${t('tendies.download_unavailable')}`;
             }
         });
+
+        // Aktualisiere den Ladetext auf der Tendies-Seite
+        const loadingText = document.querySelector('#tendies-content .loading p');
+        if (loadingText) {
+            loadingText.innerHTML = t('tendies.loading_scroll_prompt');
+        }
     }
 
     // Projekte

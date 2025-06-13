@@ -42,5 +42,7 @@
   "tendies.download.en": "Download",
   "tendies.download.de": "Download",
   "tendies.download_unavailable.en": "Download not available",
-  "tendies.download_unavailable.de": "Download nicht verfügbar"
+  "tendies.download_unavailable.de": "Download nicht verfügbar",
+  "tendies.loading_scroll_prompt.en": "Scroll to load .tendies",
+  "tendies.loading_scroll_prompt.de": "Weiter scrollen um die .tendies zu laden"
 } 
