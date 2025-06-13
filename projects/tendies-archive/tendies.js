@@ -136,45 +136,144 @@ async function loadTendies(filter = 'custom') {
     }
 }
 
-// Verbesserte Initialisierung
-async function initialize() {
-    try {
-        console.log('Initialisiere Tendies-Archiv...');
-        await clearCacheAndReload();
-        
-        // Warte auf vollständiges DOM-Loading
-        if (document.readyState === 'loading') {
-            await new Promise(resolve => {
-                document.addEventListener('DOMContentLoaded', resolve);
-            });
-        }
-        
-        // Initialisiere Filter-Buttons
-        const filterButtons = document.querySelectorAll('.filter-button');
-        if (filterButtons.length === 0) {
-            console.warn('Keine Filter-Buttons gefunden');
-        }
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filterType = button.dataset.filter;
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                loadTendies(filterType);
-            });
-        });
-        
-        // Warte 500ms bevor die Tendies geladen werden
-        console.log('Warte 500ms vor dem Laden der Tendies...');
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Lade die Tendies
-        await loadTendies('custom');
-        console.log('Tendies-Archiv erfolgreich initialisiert');
-    } catch (error) {
-        console.error('Fehler bei der Initialisierung:', error);
+// Initialisierungs-Lock und Controller
+let isInitializing = false;
+let initializationPromise = null;
+let abortController = null;
+
+// Funktion zum Abbrechen laufender Initialisierungen
+function cancelRunningInitialization() {
+    if (abortController) {
+        console.log('Breche laufende Initialisierung ab...');
+        abortController.abort();
+        abortController = null;
     }
+    isInitializing = false;
+    initializationPromise = null;
 }
 
-// Starte die Initialisierung
-initialize(); 
+// Verbesserte Initialisierung
+async function initialize() {
+    // Breche laufende Initialisierung ab
+    cancelRunningInitialization();
+    
+    // Erstelle neuen AbortController
+    abortController = new AbortController();
+    const signal = abortController.signal;
+    
+    // Setze Lock und erstelle neues Promise
+    isInitializing = true;
+    initializationPromise = (async () => {
+        try {
+            console.log('Initialisiere Tendies-Archiv...');
+            
+            // Prüfe ob Initialisierung abgebrochen wurde
+            if (signal.aborted) {
+                throw new Error('Initialisierung wurde abgebrochen');
+            }
+            
+            await clearCacheAndReload();
+            
+            // Warte auf vollständiges DOM-Loading
+            if (document.readyState === 'loading') {
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error('DOM-Loading Timeout'));
+                    }, 5000); // 5 Sekunden Timeout
+                    
+                    document.addEventListener('DOMContentLoaded', () => {
+                        clearTimeout(timeout);
+                        resolve();
+                    });
+                    
+                    // Prüfe auf Abbruch
+                    signal.addEventListener('abort', () => {
+                        clearTimeout(timeout);
+                        reject(new Error('Initialisierung wurde abgebrochen'));
+                    });
+                });
+            }
+            
+            // Prüfe ob Initialisierung abgebrochen wurde
+            if (signal.aborted) {
+                throw new Error('Initialisierung wurde abgebrochen');
+            }
+            
+            // Initialisiere Filter-Buttons
+            const filterButtons = document.querySelectorAll('.filter-button');
+            if (filterButtons.length === 0) {
+                console.warn('Keine Filter-Buttons gefunden');
+            }
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filterType = button.dataset.filter;
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    loadTendies(filterType);
+                });
+            });
+            
+            // Warte 500ms bevor die Tendies geladen werden
+            console.log('Warte 500ms vor dem Laden der Tendies...');
+            await new Promise((resolve, reject) => {
+                const timeout = setTimeout(resolve, 500);
+                
+                // Prüfe auf Abbruch
+                signal.addEventListener('abort', () => {
+                    clearTimeout(timeout);
+                    reject(new Error('Initialisierung wurde abgebrochen'));
+                });
+            });
+            
+            // Prüfe ob Initialisierung abgebrochen wurde
+            if (signal.aborted) {
+                throw new Error('Initialisierung wurde abgebrochen');
+            }
+            
+            // Lade die Tendies
+            await loadTendies('custom');
+            console.log('Tendies-Archiv erfolgreich initialisiert');
+        } catch (error) {
+            if (error.name === 'AbortError' || error.message === 'Initialisierung wurde abgebrochen') {
+                console.log('Initialisierung wurde abgebrochen');
+            } else {
+                console.error('Fehler bei der Initialisierung:', error);
+                throw error;
+            }
+        } finally {
+            // Reset Lock nach Abschluss
+            isInitializing = false;
+            initializationPromise = null;
+            abortController = null;
+        }
+    })();
+
+    return initializationPromise;
+}
+
+// Event-Listener für Seitenaktualisierungen
+window.addEventListener('beforeunload', () => {
+    cancelRunningInitialization();
+});
+
+// Event-Listener für Seitenaktualisierungen
+window.addEventListener('load', () => {
+    // Starte die Initialisierung mit Fehlerbehandlung
+    initialize().catch(error => {
+        if (error.name !== 'AbortError' && error.message !== 'Initialisierung wurde abgebrochen') {
+            console.error('Kritischer Fehler bei der Initialisierung:', error);
+            // Zeige Fehlermeldung an
+            const container = document.querySelector('.tendies-grid');
+            if (container) {
+                container.innerHTML = `
+                    <div class="error">
+                        <p data-i18n="tendies.error.loading"></p>
+                        <p class="error-details">Ein kritischer Fehler ist aufgetreten. Bitte laden Sie die Seite neu.</p>
+                    </div>
+                `;
+                setLanguage(localStorage.getItem('lang') || 'en');
+            }
+        }
+    });
+}); 
