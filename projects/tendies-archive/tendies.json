@@ -225,7 +225,7 @@
       "custom": true
     },
     {
-      "name": "iSode",
+      "name": "iSoda",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",
@@ -250,14 +250,6 @@
     },
     {
       "name": "LightBlueCubes",
-      "folder": "custom",
-      "videoformat": "mp4",
-      "downloadLink": "",
-      "apple": false,
-      "custom": true
-    },
-    {
-      "name": "",
       "folder": "custom",
       "videoformat": "mp4",
       "downloadLink": "",

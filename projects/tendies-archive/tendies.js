@@ -49,7 +49,7 @@ function displayTendies(tendies) {
             return `
                 <div class="tendies-card">
                     <div class="tendies-video">
-                        <video muted loop preload="auto" playsinline disablepictureinpicture controlslist="nodownload" oncontextmenu="return false;" src="${mediaPath}" alt="${title}" loading="lazy"></video>
+                        <video muted loop preload="auto" playsinline disablepictureinpicture controlslist="nodownload" src="${mediaPath}" alt="${title}" loading="lazy" onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();"></video>
                     </div>
                     <h3 class="tendies-title">${title}</h3>
                     ${downloadButtonHtml}
@@ -91,9 +91,10 @@ async function loadTendies(filter = 'custom') {
     }
 
     try {
-        container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Lade Tendies...</p></div>';
+        container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i><p data-i18n="tendies.loading_scroll_prompt"></p></div>';
         
-        const response = await fetch(`tendies.json?t=${Date.now()}`, {
+        // Korrekter Pfad zur tendies.json
+        const response = await fetch('./tendies.json', {
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
@@ -130,35 +131,50 @@ async function loadTendies(filter = 'custom') {
                     <p class="error-details">${error.message}</p>
                 </div>
             `;
-            setLanguage(localStorage.getItem('lang') || 'en'); // Aktualisiere den Text nach dem Laden
+            setLanguage(localStorage.getItem('lang') || 'en');
         }
     }
 }
 
-// Initialisierung
+// Verbesserte Initialisierung
 async function initialize() {
-    await clearCacheAndReload();
-    
-    // Lade die Tendies sofort beim Laden der Seite mit dem Standardfilter 'custom'
-    loadTendies('custom'); 
+    try {
+        console.log('Initialisiere Tendies-Archiv...');
+        await clearCacheAndReload();
+        
+        // Warte auf vollständiges DOM-Loading
+        if (document.readyState === 'loading') {
+            await new Promise(resolve => {
+                document.addEventListener('DOMContentLoaded', resolve);
+            });
+        }
+        
+        // Initialisiere Filter-Buttons
+        const filterButtons = document.querySelectorAll('.filter-button');
+        if (filterButtons.length === 0) {
+            console.warn('Keine Filter-Buttons gefunden');
+        }
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filterType = button.dataset.filter;
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                loadTendies(filterType);
+            });
+        });
+        
+        // Warte 500ms bevor die Tendies geladen werden
+        console.log('Warte 500ms vor dem Laden der Tendies...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Lade die Tendies
+        await loadTendies('custom');
+        console.log('Tendies-Archiv erfolgreich initialisiert');
+    } catch (error) {
+        console.error('Fehler bei der Initialisierung:', error);
+    }
 }
 
-// Event Listener für die Filter-Buttons
-document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-button');
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const filterType = button.dataset.filter;
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            loadTendies(filterType); // Übergib den Filterwert an loadTendies
-        });
-    });
-});
-
 // Starte die Initialisierung
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initialize);
-} else {
-    initialize();
-} 
+initialize(); 
