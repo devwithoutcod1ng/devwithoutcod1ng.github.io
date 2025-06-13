@@ -249,6 +249,14 @@
       "custom": true
     },
     {
+      "name": "LateRegistrationKanyeWest",
+      "folder": "custom",
+      "videoformat": "mp4",
+      "downloadLink": "",
+      "apple": false,
+      "custom": true
+    },
+    {
       "name": "LightBlueCubes",
       "folder": "custom",
       "videoformat": "mp4",
