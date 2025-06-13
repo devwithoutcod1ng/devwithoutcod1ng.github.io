@@ -210,7 +210,10 @@ if (langToggle) {
 }
 
 // Initialisierung
-loadTranslations().then(renderProjects);
+loadTranslations().then(() => {
+    renderProjects();
+    loadTendies(); // Tendies laden
+});
 
 // Dynamische Projekte laden
 async function renderProjects() {
@@ -272,99 +275,45 @@ window.onload = () => {
     }, 50);
 };
 
-// Tendies Archive Funktionalität
-async function loadTendiesData() {
-    if (!window.location.pathname.includes('/projects/tendies-archive/')) {
-        return; // Nur auf der Tendies-Archive-Seite ausführen
-    }
+// Tendies laden
+async function loadTendies() {
+    const tendiesGrid = document.getElementById('tendies-grid');
+    if (!tendiesGrid) return; // Nur ausführen, wenn auf der Tendies-Seite
 
     try {
-        const timestamp = new Date().getTime();
-        const response = await fetch(`./tendies.json?t=${timestamp}`, {
-            cache: 'no-store',
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const grid = document.getElementById('tendies-grid');
+        // Pfad zur tendies.json relativ zum aktuellen Verzeichnis
+        const path = window.location.pathname.includes('/projects/tendies-archive/') ? 'tendies.json' : 'projects/tendies-archive/tendies.json';
+        const res = await fetch(path);
+        if (!res.ok) throw new Error('Failed to load tendies');
+        const data = await res.json();
         
-        if (!grid) {
-            throw new Error('Grid element not found');
-        }
-
-        if (!data.tendies || !Array.isArray(data.tendies)) {
-            throw new Error('Invalid tendies data format');
-        }
-
-        // Grid leeren vor dem Hinzufügen neuer Karten
-        grid.innerHTML = '';
-
-        data.tendies.forEach(tendies => {
+        tendiesGrid.innerHTML = ''; // Vorherigen Inhalt löschen
+        
+        data.tendies.forEach(tendie => {
             const card = document.createElement('div');
             card.className = 'tendies-card';
-            
-            // Video-Container
-            const videoContainer = document.createElement('div');
-            videoContainer.className = 'tendies-video';
-            
-            const video = document.createElement('video');
-            video.src = `${tendies.videoPath}?t=${timestamp}`;
-            video.loop = true;
-            video.muted = true;
-            video.playsInline = true;
-            video.preload = 'metadata';
-            
-            videoContainer.appendChild(video);
-            
-            // Titel
-            const title = document.createElement('h3');
-            title.className = 'tendies-title';
-            title.textContent = tendies.name;
-            
-            // Download-Button
-            const downloadLink = document.createElement('a');
-            downloadLink.href = `${tendies.downloadLink}?t=${timestamp}`;
-            downloadLink.className = 'tendies-download';
-            downloadLink.download = true;
-            downloadLink.innerHTML = '<i class="fas fa-download"></i> Download';
-            
-            // Elemente zur Karte hinzufügen
-            card.appendChild(videoContainer);
-            card.appendChild(title);
-            card.appendChild(downloadLink);
-            
-            // Video-Playback beim Hover
-            card.addEventListener('mouseenter', () => {
-                video.play().catch(error => console.log('Video playback failed:', error));
-            });
-            card.addEventListener('mouseleave', () => {
-                video.pause();
-                video.currentTime = 0;
-            });
-            
-            grid.appendChild(card);
+            card.innerHTML = `
+                <div class="tendies-video">
+                    <video src="${tendie.videoPath}" loop muted playsinline></video>
+                </div>
+                <h3 class="tendies-title">${tendie.name}</h3>
+                <a href="${tendie.downloadLink}" class="tendies-download" download>
+                    <i class="fas fa-download"></i> Download
+                </a>
+            `;
+            tendiesGrid.appendChild(card);
+        });
+
+        // Video-Hover-Effekt
+        const videos = document.querySelectorAll('.tendies-video video');
+        videos.forEach(video => {
+            const container = video.parentElement;
+            container.addEventListener('mouseenter', () => video.play());
+            container.addEventListener('mouseleave', () => video.pause());
         });
     } catch (error) {
         console.error('Error loading tendies:', error);
-        const grid = document.getElementById('tendies-grid');
-        if (grid) {
-            grid.innerHTML = `
-                <div style="text-align: center; color: var(--text-color); padding: 2rem;">
-                    <p>Fehler beim Laden der Tendies: ${error.message}</p>
-                    <p>Bitte versuchen Sie es später erneut.</p>
-                    <button onclick="loadTendiesData()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        Erneut versuchen
-                    </button>
-                </div>
-            `;
-        }
+        tendiesGrid.innerHTML = '<p>Failed to load tendies. Please try again later.</p>';
     }
 }
 
@@ -374,8 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTranslations();
     
     // Tendies-Daten laden
-    loadTendiesData();
+    loadTendies();
 });
 
 // Event Listener für Seitenwechsel
-window.addEventListener('popstate', loadTendiesData); 
+window.addEventListener('popstate', loadTendies); 

@@ -21,14 +21,23 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .tendies-card:hover {
+            transform: translateY(-5px);
         }
 
         .tendies-video {
             width: 100%;
             aspect-ratio: 9/16;
-            background: var(--card-bg);
+            background: var(--background-color);
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .tendies-video video {
@@ -42,6 +51,7 @@
             font-weight: 600;
             color: var(--text-color);
             text-align: center;
+            margin: 0;
         }
 
         .tendies-download {
@@ -55,11 +65,19 @@
             transition: all 0.3s ease;
             text-decoration: none;
             text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .tendies-download:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: var(--secondary-color);
+        }
+
+        .tendies-download i {
+            font-size: 1.1rem;
         }
 
         @media (max-width: 1024px) {
@@ -71,7 +89,23 @@
         @media (max-width: 768px) {
             .tendies-grid {
                 grid-template-columns: 1fr;
+                padding: 1rem;
             }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin: 2rem;
         }
     </style>
 </head>
@@ -113,7 +147,10 @@
 
         <section id="tendies-content">
             <div class="tendies-grid" id="tendies-grid">
-                <!-- Tendies werden hier dynamisch eingefügt -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading Tendies...</p>
+                </div>
             </div>
         </section>
     </main>
