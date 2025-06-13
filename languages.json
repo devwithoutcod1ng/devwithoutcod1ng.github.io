@@ -28,5 +28,11 @@
   "projects.source.en": "Source Code",
   "projects.source.de": "Quellcode",
   "projects.hero.scroll.en": "Scroll to <strong>Projects</strong>",
-  "projects.hero.scroll.de": "Zu den <strong>Projekten</strong>"
+  "projects.hero.scroll.de": "Zu den <strong>Projekten</strong>",
+  "tendies.hero.title.en": "fel1x.",
+  "tendies.hero.title.de": "fel1x.",
+  "tendies.hero.subtitle.en": ".tendies Archive",
+  "tendies.hero.subtitle.de": ".tendies Archiv",
+  "tendies.hero.scroll.en": "Scroll to <strong>Tendies</strong>",
+  "tendies.hero.scroll.de": "Zu den <strong>Tendies</strong>"
 } 

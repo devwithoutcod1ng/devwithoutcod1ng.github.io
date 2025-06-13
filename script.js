@@ -102,18 +102,47 @@ let currentLang = localStorage.getItem('lang') || 'en';
 let translations = {};
 
 async function loadTranslations() {
-    const res = await fetch('languages.json');
-    translations = await res.json();
-    setLanguage(currentLang);
+    try {
+        // Pfad zur languages.json relativ zum aktuellen Verzeichnis
+        const path = window.location.pathname.includes('/projects/tendies-archive/') ? '../../languages.json' : 'languages.json';
+        const res = await fetch(path);
+        if (!res.ok) {
+            throw new Error(`Failed to load translations: ${res.status} ${res.statusText}`);
+        }
+        translations = await res.json();
+        setLanguage(currentLang);
+    } catch (error) {
+        console.error('Error loading translations:', error);
+        // Fallback zu den Standardtexten
+        translations = {
+            'tendies.hero.title.en': 'fel1x.',
+            'tendies.hero.title.de': 'fel1x.',
+            'tendies.hero.subtitle.en': '.tendies Archive',
+            'tendies.hero.subtitle.de': '.tendies Archiv',
+            'tendies.hero.scroll.en': 'Scroll to <strong>Tendies</strong>',
+            'tendies.hero.scroll.de': 'Zu den <strong>Tendies</strong>',
+            'nav.home.en': 'Home',
+            'nav.home.de': 'Startseite',
+            'nav.projects.en': 'Projects',
+            'nav.projects.de': 'Projekte'
+        };
+        setLanguage(currentLang);
+    }
 }
 
 function t(key) {
-    return translations[`${key}.${currentLang}`] || '';
+    const translation = translations[`${key}.${currentLang}`];
+    if (!translation) {
+        console.warn(`Missing translation for key: ${key}.${currentLang}`);
+        return translations[`${key}.en`] || key; // Fallback auf Englisch oder den Schlüssel selbst
+    }
+    return translation;
 }
 
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
+    
     // Navigation
     const navLinks = document.querySelectorAll('.nav-links a');
     if (navLinks.length >= 2) {
@@ -121,10 +150,12 @@ function setLanguage(lang) {
         navLinks[1].textContent = t('nav.projects');
     }
 
-    // Hero - Unterscheidung zwischen Home und Projects Seite
+    // Hero - Unterscheidung zwischen Home, Projects und Tendies Archive Seite
     const heroTitle = document.querySelector('.hero-content h1');
     if (heroTitle) {
-        if (window.location.pathname === '/projects.html') {
+        if (window.location.pathname.includes('/projects/tendies-archive/')) {
+            heroTitle.innerHTML = t('tendies.hero.title');
+        } else if (window.location.pathname === '/projects.html') {
             heroTitle.innerHTML = t('projects.hero.title');
         } else {
             heroTitle.innerHTML = t('home.hero.name');
@@ -133,7 +164,9 @@ function setLanguage(lang) {
 
     const heroSubtitle = document.querySelector('.hero-content .subtitle');
     if (heroSubtitle) {
-        if (window.location.pathname === '/projects.html') {
+        if (window.location.pathname.includes('/projects/tendies-archive/')) {
+            heroSubtitle.textContent = t('tendies.hero.subtitle');
+        } else if (window.location.pathname === '/projects.html') {
             heroSubtitle.textContent = t('projects.hero.subtitle');
         } else {
             heroSubtitle.textContent = t('home.hero.subtitle');
@@ -145,7 +178,9 @@ function setLanguage(lang) {
 
     const scrollIndicator = document.querySelector('.scroll-indicator span');
     if (scrollIndicator) {
-        if (window.location.pathname === '/projects.html') {
+        if (window.location.pathname.includes('/projects/tendies-archive/')) {
+            scrollIndicator.innerHTML = t('tendies.hero.scroll');
+        } else if (window.location.pathname === '/projects.html') {
             scrollIndicator.innerHTML = t('projects.hero.scroll');
         } else {
             scrollIndicator.innerHTML = t('home.hero.scroll');
