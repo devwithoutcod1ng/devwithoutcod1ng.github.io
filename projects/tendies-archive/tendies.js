@@ -54,14 +54,16 @@ function displayTendies(tendies) {
             let mediaElement;
             if (isVideo) {
                 mediaElement = `
-                    <video muted loop preload="auto" playsinline disablepictureinpicture controlslist="nodownload" 
+                    <video muted loop preload="metadata" playsinline disablepictureinpicture controlslist="nodownload" 
                            src="${mediaPath}" alt="${title}" loading="lazy" 
-                           onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();">
+                           onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();"
+                           onloadeddata="this.style.opacity='1'">
                     </video>`;
             } else if (isImage) {
                 mediaElement = `
                     <img src="${mediaPath}" alt="${title}" loading="lazy" 
-                         onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();">`;
+                         onerror="this.closest('.tendies-video').classList.add('error-placeholder'); this.remove();"
+                         onload="this.style.opacity='1'">`;
             } else {
                 mediaElement = `<div class="error-placeholder">Unbekanntes Format</div>`;
             }
@@ -88,12 +90,31 @@ function displayTendies(tendies) {
             
             if (video) {
                 // Video Hover-Effekte
-                card.addEventListener('mouseenter', () => {
-                    video.play();
+                let playPromise;
+                card.addEventListener('mouseenter', async () => {
+                    try {
+                        if (playPromise !== undefined) {
+                            await playPromise;
+                        }
+                        playPromise = video.play();
+                        await playPromise;
+                    } catch (error) {
+                        if (error.name !== 'AbortError') {
+                            console.warn('Video konnte nicht abgespielt werden:', error);
+                        }
+                    }
                 });
-                card.addEventListener('mouseleave', () => {
-                    video.pause();
-                    video.currentTime = 0;
+                
+                card.addEventListener('mouseleave', async () => {
+                    try {
+                        if (playPromise !== undefined) {
+                            await playPromise;
+                        }
+                        video.pause();
+                        video.currentTime = 0;
+                    } catch (error) {
+                        console.warn('Video konnte nicht pausiert werden:', error);
+                    }
                 });
             } else if (img) {
                 // Bild Hover-Effekte
@@ -186,102 +207,59 @@ function cancelRunningInitialization() {
 
 // Verbesserte Initialisierung
 async function initialize() {
-    // Breche laufende Initialisierung ab
-    cancelRunningInitialization();
-    
-    // Erstelle neuen AbortController
-    abortController = new AbortController();
-    const signal = abortController.signal;
-    
-    // Setze Lock und erstelle neues Promise
-    isInitializing = true;
-    initializationPromise = (async () => {
-        try {
-            console.log('Initialisiere Tendies-Archiv...');
-            
-            // Prüfe ob Initialisierung abgebrochen wurde
-            if (signal.aborted) {
-                throw new Error('Initialisierung wurde abgebrochen');
-            }
-            
-            await clearCacheAndReload();
-            
-            // Warte auf vollständiges DOM-Loading
-            if (document.readyState === 'loading') {
-                await new Promise((resolve, reject) => {
-                    const timeout = setTimeout(() => {
-                        reject(new Error('DOM-Loading Timeout'));
-                    }, 5000); // 5 Sekunden Timeout
-                    
-                    document.addEventListener('DOMContentLoaded', () => {
-                        clearTimeout(timeout);
-                        resolve();
-                    });
-                    
-                    // Prüfe auf Abbruch
-                    signal.addEventListener('abort', () => {
-                        clearTimeout(timeout);
-                        reject(new Error('Initialisierung wurde abgebrochen'));
-                    });
-                });
-            }
-            
-            // Prüfe ob Initialisierung abgebrochen wurde
-            if (signal.aborted) {
-                throw new Error('Initialisierung wurde abgebrochen');
-            }
-            
-            // Initialisiere Filter-Buttons
-            const filterButtons = document.querySelectorAll('.filter-button');
-            if (filterButtons.length === 0) {
-                console.warn('Keine Filter-Buttons gefunden');
-            }
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const filterType = button.dataset.filter;
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    loadTendies(filterType);
-                });
-            });
-            
-            // Warte 500ms bevor die Tendies geladen werden
-            console.log('Warte 500ms vor dem Laden der Tendies...');
+    try {
+        console.log('Initialisiere Tendies-Archiv...');
+        await clearCacheAndReload();
+        
+        // Warte auf vollständiges DOM-Loading
+        if (document.readyState === 'loading') {
             await new Promise((resolve, reject) => {
-                const timeout = setTimeout(resolve, 500);
+                const timeout = setTimeout(() => {
+                    reject(new Error('DOM-Loading Timeout'));
+                }, 5000);
                 
-                // Prüfe auf Abbruch
-                signal.addEventListener('abort', () => {
+                document.addEventListener('DOMContentLoaded', () => {
                     clearTimeout(timeout);
-                    reject(new Error('Initialisierung wurde abgebrochen'));
+                    resolve();
                 });
             });
-            
-            // Prüfe ob Initialisierung abgebrochen wurde
-            if (signal.aborted) {
-                throw new Error('Initialisierung wurde abgebrochen');
-            }
-            
-            // Lade die Tendies
-            await loadTendies('custom');
-            console.log('Tendies-Archiv erfolgreich initialisiert');
-        } catch (error) {
-            if (error.name === 'AbortError' || error.message === 'Initialisierung wurde abgebrochen') {
-                console.log('Initialisierung wurde abgebrochen');
-            } else {
-                console.error('Fehler bei der Initialisierung:', error);
-                throw error;
-            }
-        } finally {
-            // Reset Lock nach Abschluss
-            isInitializing = false;
-            initializationPromise = null;
-            abortController = null;
         }
-    })();
-
-    return initializationPromise;
+        
+        // Initialisiere Filter-Buttons
+        const filterButtons = document.querySelectorAll('.filter-button');
+        if (filterButtons.length === 0) {
+            console.warn('Keine Filter-Buttons gefunden');
+        }
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filterType = button.dataset.filter;
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                loadTendies(filterType);
+            });
+        });
+        
+        // Warte 500ms bevor die Tendies geladen werden
+        console.log('Warte 500ms vor dem Laden der Tendies...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Lade die Tendies
+        await loadTendies('custom');
+        console.log('Tendies-Archiv erfolgreich initialisiert');
+    } catch (error) {
+        console.error('Fehler bei der Initialisierung:', error);
+        const container = document.querySelector('.tendies-grid');
+        if (container) {
+            container.innerHTML = `
+                <div class="error">
+                    <p data-i18n="tendies.error.loading"></p>
+                    <p class="error-details">${error.message}</p>
+                </div>
+            `;
+            setLanguage(localStorage.getItem('lang') || 'en');
+        }
+    }
 }
 
 // Event-Listener für Seitenaktualisierungen
