@@ -60,7 +60,7 @@
     {
       "name": "Zushi",
       "folder": "custom",
-      "videoformat": "mov",
+      "videoformat": "mp4",
       "apple": false,
       "custom": true
     }
